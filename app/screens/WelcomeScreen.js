@@ -6,7 +6,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import AppText from "../components/AppText";
 import AppButton from "../components/AppButton";
 
-export default function WelcomeScreen() {
+export default function WelcomeScreen({ navigation }) {
   return (
     <ImageBackground
       style={styles.background}
@@ -18,8 +18,16 @@ export default function WelcomeScreen() {
         <Text style={styles.tagLine}>Sell What You Need !!</Text>
       </View>
       <View style={styles.buttonContaineer}>
-        <AppButton title="Login" color="primary" />
-        <AppButton title="Register" color="secondry" />
+        <AppButton
+          title="Login"
+          color="primary"
+          onPress={() => navigation.navigate("Login")}
+        />
+        <AppButton
+          title="Register"
+          color="secondry"
+          onPress={() => navigation.navigate("Register")}
+        />
       </View>
     </ImageBackground>
   );

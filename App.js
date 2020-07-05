@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, View, TextInput } from "react-native";
+import React, { useState, useEffect } from "react";
+import { StyleSheet, Text, View, TextInput, Button, Image } from "react-native";
 
+import { NavigationContainer } from "@react-navigation/native";
 import WelcomeScreen from "./app/screens/WelcomeScreen";
 import ViewImageScreen from "./app/screens/ViewImageScreen";
 import AppButton from "./app/components/AppButton";
@@ -18,10 +19,21 @@ import LoginScreen from "./app/screens/LoginScreen";
 import RegisterScreen from "./app/screens/RegisterScreen";
 import ListingEditScreen from "./app/screens/ListingEditScreen";
 
-export default function App() {
-  const [category, setCategory] = useState(""); // useState return Array "category" is the used Variable & "setCategory" change it
+import * as ImagePicker from "expo-image-picker";
+import * as Permissions from "expo-permissions";
+import ImageInput from "./app/components/images/ImageInput";
+import ImageInputList from "./app/components/images/ImageInputList";
 
-  return <ListingEditScreen />;
+import navigationTheme from "./app/navigation/navigationTheme";
+import AuthNavigator from "./app/navigation/AuthNavigator";
+import AppNavigator from "./app/navigation/AppNavigator";
+
+export default function App() {
+  return (
+    <NavigationContainer theme={navigationTheme}>
+      <AppNavigator />
+    </NavigationContainer>
+  );
 }
 
 const styles = StyleSheet.create({
