@@ -2,6 +2,8 @@ import React from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import * as firebase from "firebase";
+
 import Screen from "../components/Screen";
 import AppTextInput from "../components/AppTextInput";
 import AppButton from "../components/AppButton";
@@ -15,7 +17,7 @@ const validationSchema = Yup.object().shape({
   title: Yup.string().required().min(1).label("Title"),
   price: Yup.string().required().min(1).max(10000).label("Price"),
   description: Yup.string().label("Description"),
-  category: Yup.object().required().nullable().label("Category"),
+  category: Yup.object().nullable().label("Category"),
   images: Yup.array().min(1, "Please Select at least one Image"),
 });
 
@@ -77,6 +79,48 @@ const categories = [
 ];
 
 export default function ListingEditScreen() {
+  const addListing = async ({
+    title,
+    price,
+    description,
+    category,
+    images,
+  }) => {
+    var size = 0;
+    var newIndex = 0;
+
+    try {
+      const response = await firebase
+        .database()
+        .ref("timeLine")
+        .once("value", (data) => {
+          size = Object.keys(data.val()).length;
+          console.log("Size: ", size);
+        });
+      newIndex = size + 1;
+    } catch (error) {
+      alert(error);
+    }
+
+    try {
+      const response2 = await firebase
+        .database()
+        .ref("timeLine/" + newIndex.toString())
+        .set({
+          id: newIndex,
+          categoryID: category.value,
+          title: title,
+          price: price,
+          description: description,
+          userID: firebase.auth().currentUser.uid,
+          images: { url: images[0] },
+        });
+      alert("Success");
+    } catch (error) {
+      alert(error);
+    }
+  };
+
   return (
     <Screen style={styles.containner}>
       <Formik
@@ -87,7 +131,7 @@ export default function ListingEditScreen() {
           category: null,
           images: [],
         }} // handleChange
-        onSubmit={(values) => console.log(values)} // handleSubmit
+        onSubmit={addListing} // handleSubmit
         validationSchema={validationSchema}
       >
         {({ handleChange, handleSubmit, errors, setFieldTouched, touched }) => (

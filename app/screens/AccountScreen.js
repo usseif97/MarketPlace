@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import { StyleSheet, Text, View, FlatList } from "react-native";
+import * as firebase from "firebase";
+
 import Screen from "../components/Screen";
 import ListItem from "../components/ListItem";
 import Icon from "../components/Icon";
 import colors from "../config/colors";
 import ListItemSeperator from "../components/ListItemSeperator";
+import AuthContext from "../auth/context";
 
 const menuItems = [
   {
@@ -25,12 +28,16 @@ const menuItems = [
 ];
 
 export default function AccountScreen({ navigation }) {
+  const authContext = useContext(AuthContext);
+
+  const user = firebase.auth().currentUser;
+
   return (
     <Screen style={styles.screen}>
       <View style={styles.containeer}>
         <ListItem
-          title="Usseif"
-          subTitle="usseif97@gmail.com"
+          title={user.email}
+          //subTitle={user.email}
           image={require("../assets/usseif.jpg")}
         />
       </View>
@@ -56,6 +63,7 @@ export default function AccountScreen({ navigation }) {
       <ListItem
         title="LogOut"
         ImageComponent={<Icon name="logout" backgroundColor={colors.yellow} />}
+        onPress={() => authContext.setUser(null)}
       />
     </Screen>
   );

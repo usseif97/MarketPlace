@@ -23,16 +23,41 @@ import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
 import ImageInput from "./app/components/images/ImageInput";
 import ImageInputList from "./app/components/images/ImageInputList";
+import * as firebase from "firebase";
 
 import navigationTheme from "./app/navigation/navigationTheme";
 import AuthNavigator from "./app/navigation/AuthNavigator";
 import AppNavigator from "./app/navigation/AppNavigator";
+import AuthContext from "./app/auth/context";
 
 export default function App() {
+  // useEffect (function Component)
+  // componentDidMount (Class Component)
+  useEffect(() => {
+    if (!firebase.apps.length) {
+      var firebaseConfig = {
+        apiKey: "AIzaSyB57ZS_wWB0Pgk0HyILjbR13iMH4XcfLbA",
+        authDomain: "marketplace-bc59a.firebaseapp.com",
+        databaseURL: "https://marketplace-bc59a.firebaseio.com",
+        projectId: "marketplace-bc59a",
+        storageBucket: "marketplace-bc59a.appspot.com",
+        messagingSenderId: "674440830131",
+        appId: "1:674440830131:web:63b2ab475ab3efc6b3e4c6",
+        measurementId: "G-CM3L3LSYZ7",
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+      //firebase.analytics();
+    }
+  }, []); // empty array [] make it called only the first time
+  const [user, setUser] = useState();
+
   return (
-    <NavigationContainer theme={navigationTheme}>
-      <AppNavigator />
-    </NavigationContainer>
+    <AuthContext.Provider value={{ user, setUser }}>
+      <NavigationContainer theme={navigationTheme}>
+        {user ? <AppNavigator /> : <AuthNavigator />}
+      </NavigationContainer>
+    </AuthContext.Provider>
   );
 }
 

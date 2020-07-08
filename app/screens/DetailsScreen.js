@@ -10,7 +10,7 @@ export default function DetailsScreen({ route }) {
 
   return (
     <View>
-      <Image source={listings.image} style={styles.image} />
+      <Image source={{ uri: listings.images.url }} style={styles.image} />
       <View style={styles.detailsContaineer}>
         <AppText style={styles.title}>{listings.title}</AppText>
         <AppText style={styles.subTitle}>{listings.price}$</AppText>
