@@ -8,6 +8,7 @@ import Icon from "../components/Icon";
 import colors from "../config/colors";
 import ListItemSeperator from "../components/ListItemSeperator";
 import AuthContext from "../auth/context";
+import routes from "../navigation/routes";
 
 const menuItems = [
   {
@@ -23,7 +24,7 @@ const menuItems = [
       name: "email",
       backgroundColor: colors.secondry,
     },
-    targetScreen: "Messages",
+    targetScreen: routes.MESSAGES,
   },
 ];
 
@@ -63,7 +64,7 @@ export default function AccountScreen({ navigation }) {
       <ListItem
         title="LogOut"
         ImageComponent={<Icon name="logout" backgroundColor={colors.yellow} />}
-        onPress={() => authContext.setUser(null)}
+        onPress={() => authContext.setState(false)}
       />
     </Screen>
   );

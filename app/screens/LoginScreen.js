@@ -30,7 +30,7 @@ export default function LoginScreen() {
       setSigninFailed(false);
       const user = firebase.auth().currentUser;
       console.log("User: ", user.uid);
-      authContext.setUser(user.uid);
+      authContext.useState(true);
     } catch (error) {
       console.log("Error Catched", error);
       setSigninFailed(true);

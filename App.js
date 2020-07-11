@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, TextInput, Button, Image } from "react-native";
 
-import { NavigationContainer } from "@react-navigation/native";
 import WelcomeScreen from "./app/screens/WelcomeScreen";
 import ViewImageScreen from "./app/screens/ViewImageScreen";
 import AppButton from "./app/components/AppButton";
@@ -19,11 +18,14 @@ import LoginScreen from "./app/screens/LoginScreen";
 import RegisterScreen from "./app/screens/RegisterScreen";
 import ListingEditScreen from "./app/screens/ListingEditScreen";
 
+import { NavigationContainer } from "@react-navigation/native";
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
 import ImageInput from "./app/components/images/ImageInput";
 import ImageInputList from "./app/components/images/ImageInputList";
 import * as firebase from "firebase";
+import NetInfo from "@react-native-community/netinfo";
+import AsyncStorage from "@react-native-community/async-storage";
 
 import navigationTheme from "./app/navigation/navigationTheme";
 import AuthNavigator from "./app/navigation/AuthNavigator";
@@ -49,13 +51,24 @@ export default function App() {
       firebase.initializeApp(firebaseConfig);
       //firebase.analytics();
     }
+
+    // check if user is still loggedIn or loggedOut
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        setState(true);
+      } else {
+        setState(false);
+      }
+    });
   }, []); // empty array [] make it called only the first time
+
   const [user, setUser] = useState();
+  const [state, setState] = useState(false);
 
   return (
-    <AuthContext.Provider value={{ user, setUser }}>
+    <AuthContext.Provider value={{ state, setState }}>
       <NavigationContainer theme={navigationTheme}>
-        {user ? <AppNavigator /> : <AuthNavigator />}
+        {state ? <AppNavigator /> : <AuthNavigator />}
       </NavigationContainer>
     </AuthContext.Provider>
   );

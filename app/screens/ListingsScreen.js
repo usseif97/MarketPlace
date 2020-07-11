@@ -61,7 +61,6 @@ export default function ListingsScreen({ navigation }) {
 
   useEffect(() => {
     console.log("Listing Screen Rendered");
-
     loadListings();
   }, []);
 

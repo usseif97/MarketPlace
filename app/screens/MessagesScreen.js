@@ -13,6 +13,7 @@ import ListItem from "../components/ListItem";
 import Screen from "../components/Screen";
 import ListItemSeperator from "../components/ListItemSeperator";
 import ListItemDeleteAction from "../components/ListItemDeleteAction";
+import routes from "../navigation/routes";
 
 const intialMessages = [
   {
@@ -29,7 +30,7 @@ const intialMessages = [
   },
 ];
 
-export default function MessagesScreen() {
+export default function MessagesScreen({ navigation }) {
   const [messages, setMessages] = useState(intialMessages);
   const [refreshing, setRefresh] = useState(false);
 
@@ -48,7 +49,7 @@ export default function MessagesScreen() {
             title={item.title}
             subTitle={item.description}
             image={item.image}
-            onPress={() => console.log("Message Selected", item)}
+            onPress={() => navigation.navigate(routes.CHAT)}
             renderRightActions={() => (
               <ListItemDeleteAction onPress={() => handelDelete(item)} />
             )}

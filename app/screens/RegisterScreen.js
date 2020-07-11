@@ -31,7 +31,8 @@ export default function RegisterScreen({ navigation }) {
       setSignupFailed(false);
       const user = firebase.auth().currentUser;
       console.log("User: ", user.uid);
-      authContext.setUser(user.uid);
+      authContext.useState(true);
+      //authContext.setUser(user.uid);
       //firebase.database().ref('Accounts/${user.uid}').set()
     } catch (error) {
       console.log("Error Catched", error);

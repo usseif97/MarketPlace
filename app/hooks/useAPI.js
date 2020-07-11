@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import cache from "../utility/cache";
+
 import * as firebase from "firebase";
 
 export default useAPI = (reference) => {
@@ -18,8 +20,15 @@ export default useAPI = (reference) => {
         });
       setLoading(false); // Finish Loading Data
       setError(false);
+
+      cache.store(reference, data);
     } catch (error) {
-      setError(true);
+      const data = await cache.get(reference);
+
+      if (data) {
+      } else {
+        setError(true);
+      }
     }
   };
 

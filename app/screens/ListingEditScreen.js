@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, Text, View, Image } from "react-native";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import * as firebase from "firebase";
+import axios from "axios";
 
 import Screen from "../components/Screen";
 import AppTextInput from "../components/AppTextInput";
@@ -12,6 +13,7 @@ import SubmitButton from "../components/forms/SubmitButton";
 import AppFormPicker from "../components/forms/AppFormPicker";
 import CategoryPickerItem from "../components/CategoryPickerItem";
 import FormImagePicker from "../components/forms/FormImagePicker";
+import UploadScreen from "./UploadScreen";
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required().min(1).label("Title"),
@@ -79,6 +81,10 @@ const categories = [
 ];
 
 export default function ListingEditScreen() {
+  const [uploadVisible, setUploadVisible] = useState(false); // Modal
+  const [onDoneVisible, setOnDoneVisible] = useState(false);
+  const [progress, setProgress] = useState(0);
+
   const addListing = async ({
     title,
     price,
@@ -115,14 +121,33 @@ export default function ListingEditScreen() {
           userID: firebase.auth().currentUser.uid,
           images: { url: images[0] },
         });
-      alert("Success");
+      // Progress Bar
+      setProgress(0);
+      setUploadVisible(true);
+      setOnDoneVisible(false);
+      for (var i = 0.1; i < 1; i += 0.1) {
+        setTimeout(() => {
+          setProgress(i);
+        }, 500);
+      }
+      setTimeout(() => {
+        setOnDoneVisible(true);
+      }, 1000);
+      // Suceess
     } catch (error) {
+      setUploadVisible(false);
       alert(error);
     }
   };
 
   return (
     <Screen style={styles.containner}>
+      <UploadScreen
+        progress={progress}
+        visible={uploadVisible}
+        onDone={onDoneVisible}
+        finish={() => setUploadVisible(false)}
+      />
       <Formik
         initialValues={{
           title: "",
