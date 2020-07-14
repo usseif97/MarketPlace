@@ -24,16 +24,26 @@ export default function RegisterScreen({ navigation }) {
   const authContext = useContext(AuthContext);
 
   // Request Permission for signup
-  const signup = async ({ email, password }) => {
+  const signup = async ({ name, email, password }) => {
     try {
       await firebase.auth().createUserWithEmailAndPassword(email, password);
       console.log("Account Created");
       setSignupFailed(false);
-      const user = firebase.auth().currentUser;
-      console.log("User: ", user.uid);
-      authContext.useState(true);
-      //authContext.setUser(user.uid);
-      //firebase.database().ref('Accounts/${user.uid}').set()
+      const user = firebase.auth().currentUser.uid;
+      //authContext.useState(true);
+
+      const response = await firebase
+        .database()
+        .ref("Accounts/" + user)
+        .set({
+          email: email,
+          username: name,
+          password: password,
+          image:
+            "https://www.dovercourt.org/wp-content/uploads/2019/11/610-6104451_image-placeholder-png-user-profile-placeholder-image-png.jpg",
+        });
+
+      authContext.setState(true);
     } catch (error) {
       console.log("Error Catched", error);
       setSignupFailed(true);

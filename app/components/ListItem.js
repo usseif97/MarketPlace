@@ -25,7 +25,7 @@ export default function ListItem({
       <TouchableHighlight underlayColor={colors.grey} onPress={onPress}>
         <View style={styles.containeer}>
           {ImageComponent}
-          {image && <Image source={image} style={styles.image} />}
+          {image && <Image source={{ uri: image }} style={styles.image} />}
           <View style={styles.detailsContaineer}>
             <AppText style={styles.title} numberOfLines={1}>
               {title}
