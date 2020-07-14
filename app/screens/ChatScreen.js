@@ -10,6 +10,7 @@ import { GiftedChat } from "react-native-gifted-chat";
 
 import Screen from "../components/Screen";
 import ChatFirebase from "../chat/ChatFirebase";
+import * as firebase from "firebase";
 
 export default class ChatScreen extends React.Component {
   //const [messages, setMessages] = useState([]);
@@ -26,6 +27,14 @@ export default class ChatScreen extends React.Component {
   }
 
   componentDidMount() {
+    const { route } = this.props;
+    const to = route.params.to;
+    console.log("to: ", to);
+    var from = firebase.auth().currentUser.uid;
+    console.log("from: ", from);
+
+    ChatFirebase.toWho = to;
+
     ChatFirebase.get((message) =>
       this.setState((previous) => ({
         messages: GiftedChat.append(previous.messages, message),

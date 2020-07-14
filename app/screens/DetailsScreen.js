@@ -4,8 +4,9 @@ import { StyleSheet, Text, View, Image } from "react-native";
 import colors from "../config/colors";
 import AppText from "../components/AppText";
 import ListItem from "../components/ListItem";
+import routes from "../navigation/routes";
 
-export default function DetailsScreen({ route }) {
+export default function DetailsScreen({ route, navigation }) {
   const listings = route.params;
 
   return (
@@ -18,6 +19,9 @@ export default function DetailsScreen({ route }) {
           image={require("../assets/usseif.jpg")}
           title="Usseif"
           subTitle="5 Listings"
+          onPress={() =>
+            navigation.navigate(routes.CHAT, { to: listings.userID })
+          }
         />
       </View>
     </View>

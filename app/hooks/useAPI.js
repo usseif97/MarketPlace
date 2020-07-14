@@ -21,14 +21,15 @@ export default useAPI = (reference) => {
       setLoading(false); // Finish Loading Data
       setError(false);
 
-      cache.store(reference, data);
+      //cache.store(reference, data);
     } catch (error) {
-      const data = await cache.get(reference);
+      setError(true);
+      /*const data = await cache.get(reference);
 
       if (data) {
       } else {
         setError(true);
-      }
+      }*/
     }
   };
 

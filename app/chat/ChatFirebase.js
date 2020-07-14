@@ -1,10 +1,16 @@
 import * as firebase from "firebase";
 
 class ChatFirebase {
-  constructor() {}
+  constructor(_to) {
+    this.to = _to;
+  }
 
-  get db() {
-    return firebase.database().ref("Messages");
+  get toWho() {
+    return this.to;
+  }
+
+  set toWho(x) {
+    this.to = x;
   }
 
   get uid() {
@@ -18,7 +24,17 @@ class ChatFirebase {
         timeStamp: firebase.database.ServerValue.TIMESTAMP,
         user: item.user,
       };
-      this.db.push(message);
+      firebase
+        .database()
+        .ref("Messages")
+        .child(this.uid + "/" + this.to)
+        .push(message);
+
+      firebase
+        .database()
+        .ref("Messages")
+        .child(this.to + "/" + this.uid)
+        .push(message);
     });
   };
 
@@ -31,12 +47,20 @@ class ChatFirebase {
   };
 
   get = (callback) => {
-    this.db.on("child_added", (snapshot) => callback(this.parse(snapshot)));
+    firebase
+      .database()
+      .ref("Messages")
+      .child(this.uid + "/" + this.to)
+      .on("child_added", (snapshot) => callback(this.parse(snapshot)));
   };
 
   off() {
-    this.db.off();
+    firebase
+      .database()
+      .ref("Messages")
+      .child(this.uid + "/" + this.to)
+      .off();
   }
 }
 
-export default new ChatFirebase();
+export default new ChatFirebase("ss");
