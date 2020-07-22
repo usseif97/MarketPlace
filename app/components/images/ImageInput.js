@@ -11,8 +11,9 @@ import colors from "../../config/colors";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
+import { acc } from "react-native-reanimated";
 
-export default function ImageInput({ imageURI, onchangeImage }) {
+export default function ImageInput({ imageURI, onchangeImage, account }) {
   // Request Permission for Inage Picking
   const requestPermission = async () => {
     const permssion = await Permissions.askAsync(Permissions.CAMERA_ROLL);
@@ -31,6 +32,7 @@ export default function ImageInput({ imageURI, onchangeImage }) {
 
   const handlePress = () => {
     if (!imageURI) selectImage();
+    else if (account) selectImage();
     else
       Alert.alert("Delete", "Are you sure you want to delete this image", [
         { text: "YES", onPress: () => onchangeImage(null) },

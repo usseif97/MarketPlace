@@ -22,6 +22,7 @@ const menuItems = [
       name: "format-list-bulleted",
       backgroundColor: colors.primary,
     },
+    targetScreen: routes.MY_LISTINGS,
   },
   {
     title: "My Messages",
@@ -42,6 +43,20 @@ export default function AccountScreen({ navigation }) {
     "Accounts/" + user
   );
 
+  const updateImage = async (uri) => {
+    try {
+      const response = await firebase
+        .database()
+        .ref("Accounts/" + user)
+        .update({
+          image: uri,
+        })
+        .then(() => console.log("Data updated."));
+    } catch (error) {
+      alert(error);
+    }
+  };
+
   useEffect(() => {
     console.log("Account Screen Rendered");
     loadInfo();
@@ -57,7 +72,13 @@ export default function AccountScreen({ navigation }) {
       )}
       <AppActivityIndicator visible={loading} />
       <View style={styles.containeer}>
-        <ListItem title={info[3]} subTitle={info[0]} image={info[1]} />
+        <ListItem
+          title={info[4]}
+          subTitle={info[0]}
+          image={info[1]}
+          imageInput={1}
+          action={updateImage}
+        />
       </View>
       <View style={styles.containeer}>
         <FlatList

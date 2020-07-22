@@ -17,6 +17,15 @@ class ChatFirebase {
     return (firebase.auth().currentUser || {}).uid;
   }
 
+  /*get name() {
+    firebase
+      .database()
+      .ref("Accounts/" + this.uid)
+      .once("value", (data) => {
+        return Object.values(data.val());
+      });
+  }*/
+
   send = (messages) => {
     messages.forEach((item) => {
       const message = {

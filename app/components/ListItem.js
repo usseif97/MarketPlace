@@ -11,21 +11,32 @@ import AppText from "./AppText";
 import colors from "../config/colors";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import ImageInput from "./images/ImageInput";
 
 export default function ListItem({
   title,
   subTitle,
   image,
+  imageInput,
   ImageComponent,
   onPress,
   renderRightActions,
+  action,
 }) {
   return (
     <Swipeable renderRightActions={renderRightActions}>
       <TouchableHighlight underlayColor={colors.grey} onPress={onPress}>
         <View style={styles.containeer}>
           {ImageComponent}
-          {image && <Image source={{ uri: image }} style={styles.image} />}
+          {imageInput ? (
+            <ImageInput imageURI={image} onchangeImage={action} account={1} />
+          ) : (
+            <Image source={{ uri: image }} style={styles.image} />
+          )}
+          {/*{imageInput && image && (
+            <ImageInput imageURI={image} onchangeImage={action} />
+          )}
+          {image && <Image source={{ uri: image }} style={styles.image} />}*/}
           <View style={styles.detailsContaineer}>
             <AppText style={styles.title} numberOfLines={1}>
               {title}

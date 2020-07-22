@@ -13,8 +13,6 @@ import ChatFirebase from "../chat/ChatFirebase";
 import * as firebase from "firebase";
 
 export default class ChatScreen extends React.Component {
-  //const [messages, setMessages] = useState([]);
-
   state = {
     messages: [],
   };
