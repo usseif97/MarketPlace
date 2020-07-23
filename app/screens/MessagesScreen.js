@@ -22,21 +22,6 @@ import AppText from "../components/AppText";
 import AppButton from "../components/AppButton";
 import AppActivityIndicator from "../components/AppActivityIndicator";
 
-const intialMessages = [
-  {
-    id: 1,
-    title: "T1",
-    description: "D1",
-    image: require("../assets/usseif.jpg"),
-  },
-  {
-    id: 2,
-    title: "T2",
-    description: "D2",
-    image: require("../assets/mosh.jpg"),
-  },
-];
-
 export default function MessagesScreen({ navigation }) {
   const [accounts, setAccounts] = useState([]);
   const [allAccounts, setAllAccounts] = useState([]);
@@ -100,7 +85,6 @@ export default function MessagesScreen({ navigation }) {
     setLoading(false); // Finish Loading Data
   }, []);
 
-  const [messages, setMessages] = useState(intialMessages);
   const [refreshing, setRefresh] = useState(false);
 
   const handelDelete = (message) => {

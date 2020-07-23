@@ -18,21 +18,6 @@ import AppButton from "../components/AppButton";
 import AppActivityIndicator from "../components/AppActivityIndicator";
 import useAPI from "../hooks/useAPI";
 
-/*const listings = [
-  {
-    id: 1,
-    title: "Red Jacket",
-    price: 100,
-    image: require("../assets/jacket.jpg"),
-  },
-  {
-    id: 2,
-    title: "Couch in great condition",
-    price: 200,
-    image: require("../assets/couch.jpg"),
-  },
-];*/
-
 export default function ListingsScreen({ navigation }) {
   /*const [listings, setListings] = useState([]);
   const [error, setError] = useState(false);
